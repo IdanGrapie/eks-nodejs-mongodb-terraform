@@ -1,79 +1,103 @@
+# Terraform EKS NodeJS MongoDB Project
 
-# Terraform EKS
+Infrastructure-as-Code project that provisions an AWS EKS cluster using Terraform and deploys a NodeJS application connected to MongoDB using Helm charts.
 
-This project automates the deployment of an AWS EKS (Elastic Kubernetes Service) cluster using Terraform. The setup includes provisioning the required AWS infrastructure, configuring the Kubernetes cluster, and deploying applications with Helm.
+The project demonstrates cloud infrastructure provisioning, Kubernetes orchestration, and application deployment using modern DevOps practices.
 
-## Features
+## Tech Stack
 
-- **EKS Cluster**: Automated provisioning of an EKS cluster.
-- **Terraform**: Infrastructure as code (IaC) using Terraform.
-- **Helm**: Helm charts for application deployment.
-- **Kubernetes**: Manage and scale containerized applications.
-- **CI/CD Integration**: in progress
+- AWS EKS
+- Terraform
+- Kubernetes
+- Helm
+- Docker
+- NodeJS
+- MongoDB
 
-## Prerequisites
+## Project Overview
 
-- Terraform v1.x.x
-- AWS CLI configured with the necessary access
-- kubectl v1.x.x
-- Helm v3.x.x
+This project demonstrates how to deploy a containerized web application to AWS EKS.
 
-## Infrastructure Overview
+The infrastructure is managed with Terraform, while the application and database are deployed to Kubernetes using Helm charts.
 
-- **VPC**: A Virtual Private Cloud with public and private subnets.
-- **EKS**: AWS EKS cluster.
-- **Node Groups**: EC2 instances for worker nodes.
-- **Security**: Managed via AWS security groups and IAM roles.
-  
-## Setup Instructions
+## Architecture
 
-### 1. Clone the repository
+```text
+User
+  │
+  ▼
+AWS LoadBalancer
+  │
+  ▼
+NodeJS Service
+  │
+  ▼
+NodeJS Pods
+  │
+  ▼
+MongoDB Service
+  │
+  ▼
+MongoDB Pod
+```
 
-\`\`\`bash
-git clone https://github.com/IdanGrapie/Terraform_EKS.git
-cd Terraform_EKS
-\`\`\`
+## Repository Structure
 
-### 2. Configure AWS Credentials
+```text
+terraform/     Terraform infrastructure files
+helm/          Helm charts for NodeJS and MongoDB
+nodejs/        NodeJS application source code
+```
 
-Ensure your AWS credentials are properly configured for Terraform to interact with AWS.
+## What This Project Demonstrates
 
-\`\`\`bash
-aws configure
-\`\`\`
+- Creating cloud infrastructure with Terraform
+- Provisioning an EKS Kubernetes cluster
+- Deploying applications using Helm
+- Running NodeJS and MongoDB in Kubernetes
+- Exposing an application using a Kubernetes LoadBalancer
+- Managing application configuration with Helm values
 
-### 3. Initialize and apply Terraform
+## Deployment Steps
 
-\`\`\`bash
+### Provision Infrastructure
+
+```bash
+cd terraform
 terraform init
+terraform plan
 terraform apply
-\`\`\`
+```
 
-This will provision the necessary AWS resources for EKS.
+### Configure kubectl
 
-### 4. Access the EKS Cluster
+```bash
+aws eks update-kubeconfig --region <region> --name <cluster-name>
+```
 
-Once the infrastructure is provisioned, update your kubeconfig to access the EKS cluster:
+### Verify Deployment
 
-\`\`\`bash
-kubectl get services --namespace default
-\`\`\`
-COPY the ELB address and try accessing it, if you see the site everything works  
+```bash
+kubectl get pods
+kubectl get svc
+```
 
+## Project Goals
 
-## File Structure
+This project was built to gain hands-on experience with:
 
-\`\`\`
-├── helm/                 # Helm charts for deploying applications
-├── main.tf               # Main Terraform configuration file
-├── variables.tf          # Terraform variables
-├── outputs.tf            # Terraform outputs
-└── README.md             # Project documentation (this file)
-\`\`\`
+- Infrastructure as Code (IaC)
+- Kubernetes orchestration
+- Helm package management
+- AWS cloud infrastructure
+- Containerized application deployment
 
-## Notes
+## Future Improvements
 
-- Ensure that your AWS user/role has the necessary permissions to create EKS clusters and associated resources.
-- Adjust configurations in `values.yaml` for Helm to customize your application deployments.
+- Horizontal Pod Autoscaling (HPA)
+- Monitoring with Prometheus and Grafana
+- Ingress Controller configuration
+- GitHub Actions CI/CD pipeline
+- Multi-environment deployments (dev/staging/prod)
 
 
